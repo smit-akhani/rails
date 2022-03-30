@@ -1,3 +1,17 @@
+Tables:
+Author
+columns(name(string))
+has_many :books
+ 
+Book
+columns(author_id(int), book(string), sold_quantity(string), name(string), published(boolean))
+belongs_to :author
+has_many :reviews
+ 
+Review
+Columns(ratings(int), user_id(int), description(text), book_id(int))
+belongs_to :book
+
 1) Author.joins(:books).group("authors.name").count("books.author_id")
 
 2) Author.includes(:books).where(books: { published: true }).count
