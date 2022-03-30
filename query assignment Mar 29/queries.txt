@@ -1,0 +1,38 @@
+1) Author.joins(:books).group("authors.name").count("books.author_id")
+
+2) Author.includes(:books).where(books: { published: true }).count
+
+3) Author.joins("INNER JOIN books ON books.author_id = authors.id AND books.sold_quantity >20")
+
+4) Author.joins(books: :reviews).where("reviews.ratings> 3.5")
+
+5) Book.order(sold_quantity: :desc).limit(10)
+
+6) Book.where("created_at > ?", 1.month.ago).order(sold_quantity: :desc).limit(20)
+
+7) Book.where("created_at >= ?", 1.week.ago.utc).order(sold_quantity: :desc).limit(10)
+
+8) Book.where("created_at > ?", Time.now-1.days).order(sold_quantity: :desc).limit(10)
+
+9) Book.joins(:reviews).where("reviews.description like ?", "%nice%")
+
+10) Note down difference between joins and includes:
+    Includes uses eager loading whereas joins uses lazy loading.
+    Both are used when certain operations are meant to be performed on associated tables.
+    When we need data to be used from associated tables, includes must be used.
+    With includes, Active Record ensures that all of the specified associations are loaded
+    using the minimum possible number of queries
+
+11) Try different types of joins:
+    - INNER JOIN
+    - LEFT JOIN or LEFT OUTER JOIN
+    
+    1) Accommodation.joins(:bookings)
+       In SQL this is translated to an INNER JOIN,
+       SELECT "accommodations".* FROM "accommodations" INNER JOIN "bookings"
+       ON "bookings"."id" = "accommodations"."booking_id"
+
+    2) Accommodation.left_joins(:bookings)
+       you can also use its alias, the left_outer_joins.
+       produces the following SQL,
+       Accommodation.joins('LEFT OUTER JOIN bookings ON bookings.accommodation_id = acommodations.id")
