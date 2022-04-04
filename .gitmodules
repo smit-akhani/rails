@@ -1,0 +1,3 @@
+[submodule "crud-operations"]
+	path = crud-operations
+	url = https://github.com/smit-akhani/crud-operations.git
